@@ -1,0 +1,43 @@
+/* Design tokens: warm brownish palette */
+:root {
+    /* Backgrounds & surfaces */
+    --color-bg: #f5ebe1;
+    --color-bg-soft: #f1e2d5;
+    --color-surface: #fff8f0;
+    --color-surface-strong: #fff4e6;
+
+    /* Borders & shadows */
+    --color-border-subtle: #e0c4aa;
+    --shadow-elevated-soft: 0 20px 60px rgba(73, 46, 26, 0.25);
+    --shadow-button-strong: 0 10px 20px rgba(73, 46, 26, 0.35);
+    --shadow-button-soft: 0 10px 20px rgba(73, 46, 26, 0.22);
+
+    /* Text */
+    --color-text-primary: #3f2a1d;
+    --color-text-muted: #7a5c46;
+    --color-text-soft: #b08a6a;
+
+    /* Primary / accent actions */
+    --color-primary: #a86a3d;
+    --color-primary-strong: #935731;
+    --color-primary-very-soft: #f0d3b8;
+
+    --color-accent: #c27a48;
+    --color-accent-strong: #aa6435;
+
+    /* Neutral buttons / controls */
+    --color-neutral-button: #e8d3c0;
+    --color-neutral-button-strong: #dec3ad;
+
+    /* Laps list */
+    --color-lap-row-alt: #f7e1c8;
+    --color-lap-highlight: #f3cfa8;
+
+    /* Typography & radii */
+    --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+
+    --radius-xl: 20px;
+    --radius-lg: 14px;
+    --radius-pill: 999px;
+}
+

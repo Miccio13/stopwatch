@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stopwatch</title>
+    <link rel="stylesheet" href="token.css">
     <style>
         * {
             margin: 0;
@@ -12,27 +13,27 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: var(--font-family-base);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--color-bg);
             padding: 20px;
         }
 
         .stopwatch-container {
-            background: white;
-            border-radius: 20px;
+            background: var(--color-surface);
+            border-radius: var(--radius-xl);
             padding: 60px 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--shadow-elevated-soft);
             text-align: center;
             max-width: 500px;
             width: 100%;
         }
 
         h1 {
-            color: #333;
+            color: var(--color-text-primary);
             margin-bottom: 40px;
             font-size: 2.5rem;
             font-weight: 300;
@@ -41,7 +42,7 @@
         .display {
             font-size: 4.5rem;
             font-weight: 300;
-            color: #667eea;
+            color: var(--color-primary);
             margin-bottom: 50px;
             font-variant-numeric: tabular-nums;
             letter-spacing: 2px;
@@ -54,11 +55,88 @@
             flex-wrap: wrap;
         }
 
+        .laps {
+            margin-top: 35px;
+            text-align: left;
+        }
+
+        .laps-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .laps-title {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--color-text-primary);
+        }
+
+        .laps-meta {
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .laps-list {
+            list-style: none;
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            max-height: 260px;
+            overflow-y: auto;
+        }
+
+        .lap-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr;
+            gap: 10px;
+            padding: 12px 14px;
+            align-items: center;
+            font-variant-numeric: tabular-nums;
+            background: var(--color-surface);
+        }
+
+        .lap-row:nth-child(even) {
+            background: var(--color-lap-row-alt);
+        }
+
+        .lap-row--highlight {
+            background: var(--color-lap-highlight) !important;
+        }
+
+        .lap-label {
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .lap-time {
+            text-align: right;
+            color: var(--color-text-primary);
+        }
+
+        .lap-total {
+            text-align: right;
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        .lap-empty {
+            padding: 14px;
+            color: var(--color-text-soft);
+            text-align: center;
+        }
+
         button {
             padding: 15px 40px;
             font-size: 1.1rem;
             border: none;
-            border-radius: 50px;
+            border-radius: var(--radius-pill);
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
@@ -68,13 +146,13 @@
         }
 
         .start-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--color-primary);
+            color: #fffaf5;
         }
 
         .start-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: var(--shadow-button-strong);
         }
 
         .start-btn:active {
@@ -82,13 +160,13 @@
         }
 
         .pause-btn {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
+            background: var(--color-accent);
+            color: #fffaf5;
         }
 
         .pause-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(245, 87, 108, 0.4);
+            box-shadow: var(--shadow-button-strong);
         }
 
         .pause-btn:active {
@@ -96,14 +174,29 @@
         }
 
         .reset-btn {
-            background: #e0e0e0;
-            color: #333;
+            background: var(--color-neutral-button);
+            color: var(--color-text-primary);
+        }
+
+        .lap-btn {
+            background: var(--color-bg-soft);
+            color: var(--color-text-primary);
+        }
+
+        .lap-btn:hover {
+            background: var(--color-lap-row-alt);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-button-soft);
+        }
+
+        .lap-btn:active {
+            transform: translateY(0);
         }
 
         .reset-btn:hover {
-            background: #d0d0d0;
+            background: var(--color-neutral-button-strong);
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-button-soft);
         }
 
         .reset-btn:active {
@@ -136,6 +229,11 @@
                 font-size: 1rem;
                 min-width: 120px;
             }
+
+            .lap-row {
+                grid-template-columns: 70px 1fr 1fr;
+                padding: 11px 12px;
+            }
         }
     </style>
 </head>
@@ -146,7 +244,18 @@
         <div class="controls">
             <button class="start-btn" id="startBtn">Start</button>
             <button class="pause-btn" id="pauseBtn" disabled>Pause</button>
+            <button class="lap-btn" id="lapBtn" disabled>Lap</button>
             <button class="reset-btn" id="resetBtn">Reset</button>
+        </div>
+
+        <div class="laps" aria-live="polite">
+            <div class="laps-header">
+                <div class="laps-title">Laps</div>
+                <div class="laps-meta" id="lapsMeta">0 laps</div>
+            </div>
+            <ul class="laps-list" id="lapsList">
+                <li class="lap-empty" id="lapsEmpty">No laps yet</li>
+            </ul>
         </div>
     </div>
 
@@ -155,11 +264,17 @@
         let elapsedTime = 0;
         let timerInterval = null;
         let isRunning = false;
+        let laps = [];
+        let lastLapMark = 0;
 
         const display = document.getElementById('display');
         const startBtn = document.getElementById('startBtn');
         const pauseBtn = document.getElementById('pauseBtn');
+        const lapBtn = document.getElementById('lapBtn');
         const resetBtn = document.getElementById('resetBtn');
+        const lapsList = document.getElementById('lapsList');
+        const lapsMeta = document.getElementById('lapsMeta');
+        const lapsEmpty = document.getElementById('lapsEmpty');
 
         function formatTime(ms) {
             const totalSeconds = Math.floor(ms / 1000);
@@ -174,6 +289,48 @@
             display.textContent = formatTime(elapsedTime);
         }
 
+        function renderLaps() {
+            lapsMeta.textContent = `${laps.length} lap${laps.length === 1 ? '' : 's'}`;
+
+            // Clear list
+            lapsList.innerHTML = '';
+
+            if (laps.length === 0) {
+                lapsList.appendChild(lapsEmpty);
+                return;
+            }
+
+            const lapTimes = laps.map(l => l.lapMs);
+            const minLap = Math.min(...lapTimes);
+            const maxLap = Math.max(...lapTimes);
+
+            // Show newest first
+            for (let i = laps.length - 1; i >= 0; i--) {
+                const lap = laps[i];
+                const isHighlight = lap.lapMs === minLap || lap.lapMs === maxLap;
+
+                const li = document.createElement('li');
+                li.className = `lap-row${isHighlight ? ' lap-row--highlight' : ''}`;
+
+                const lapLabel = document.createElement('div');
+                lapLabel.className = 'lap-label';
+                lapLabel.textContent = `Lap ${lap.number}`;
+
+                const lapTime = document.createElement('div');
+                lapTime.className = 'lap-time';
+                lapTime.textContent = formatTime(lap.lapMs);
+
+                const lapTotal = document.createElement('div');
+                lapTotal.className = 'lap-total';
+                lapTotal.textContent = formatTime(lap.totalMs);
+
+                li.appendChild(lapLabel);
+                li.appendChild(lapTime);
+                li.appendChild(lapTotal);
+                lapsList.appendChild(li);
+            }
+        }
+
         function start() {
             if (!isRunning) {
                 startTime = Date.now() - elapsedTime;
@@ -184,6 +341,7 @@
                 isRunning = true;
                 startBtn.disabled = true;
                 pauseBtn.disabled = false;
+                lapBtn.disabled = false;
             }
         }
 
@@ -193,24 +351,46 @@
                 isRunning = false;
                 startBtn.disabled = false;
                 pauseBtn.disabled = true;
+                lapBtn.disabled = true;
             }
+        }
+
+        function lap() {
+            if (!isRunning) return;
+
+            const lapMs = elapsedTime - lastLapMark;
+            lastLapMark = elapsedTime;
+
+            laps.push({
+                number: laps.length + 1,
+                lapMs,
+                totalMs: elapsedTime
+            });
+
+            renderLaps();
         }
 
         function reset() {
             clearInterval(timerInterval);
             elapsedTime = 0;
             isRunning = false;
+            laps = [];
+            lastLapMark = 0;
             updateDisplay();
+            renderLaps();
             startBtn.disabled = false;
             pauseBtn.disabled = true;
+            lapBtn.disabled = true;
         }
 
         startBtn.addEventListener('click', start);
         pauseBtn.addEventListener('click', pause);
+        lapBtn.addEventListener('click', lap);
         resetBtn.addEventListener('click', reset);
 
         // Initialize display
         updateDisplay();
+        renderLaps();
     </script>
 </body>
 </html>
